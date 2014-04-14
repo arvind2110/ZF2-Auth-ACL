@@ -1,0 +1,24 @@
+{
+    "name": "arvind2110/zf2-auth-acl",
+    "description": "ZF2-Auth-ACL is very simple ZF2 module for ZF2 Auth/ACL use.",
+    "type": "library",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/arvind2110/ZF2-Auth-ACL",
+    "authors": [
+        {
+            "name": "Arvind Singh",
+            "email": "arvind.singh.2110@gmail.com",
+            "homepage": "http://programming-tips.in"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
