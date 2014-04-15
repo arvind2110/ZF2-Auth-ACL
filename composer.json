@@ -3,7 +3,12 @@
     "description": "ZF2-Auth-ACL is very simple ZF2 module for ZF2 Auth/ACL use.",
     "type": "library",
     "keywords": [
-        "zf2"
+        "zf2",
+        "Auth",
+        "ACL",
+        "ZF2 Auth",
+        "ZF2 ACL",
+        "ZF2 Auth Acl"
     ],
     "homepage": "https://github.com/arvind2110/ZF2-Auth-ACL",
     "authors": [
