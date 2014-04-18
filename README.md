@@ -11,7 +11,7 @@ Database tables required
 
 Following database tables are required to use this module. You can modify the tables and table information as per your need. Also make changes in code regarding the same.
 
-
+```mysql
 CREATE TABLE `role` (
   `rid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_name` varchar(45) NOT NULL,
@@ -83,6 +83,8 @@ INSERT INTO `demo`.`role_permission` (`role_id`, `permission_id`) VALUES (2, 1);
 INSERT INTO `demo`.`role_permission` (`role_id`, `permission_id`) VALUES (2, 2);
 INSERT INTO `demo`.`role_permission` (`role_id`, `permission_id`) VALUES (3, 1);
 INSERT INTO `demo`.`role_permission` (`role_id`, `permission_id`) VALUES (3, 3);
+
+```
 
 White List
 ----------
