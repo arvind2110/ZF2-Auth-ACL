@@ -24,11 +24,6 @@ class Role extends AbstractTableGateway
         $this->initialize();
     }
     
-    /**
-     * Get all the Users Role
-     *
-     * @return array
-     */
     public function getUserRoles($where = array(), $columns = array())
     {
         try {
@@ -58,12 +53,6 @@ class Role extends AbstractTableGateway
         }
     }
 
-    /**
-     * Function for Getting All the Employees
-     *
-     * @throws \Exception
-     * @return \UserRole\Controller\Paginator unknown
-     */
     public function getEmployees()
     {
         try {
@@ -86,11 +75,6 @@ class Role extends AbstractTableGateway
         }
     }
 
-    /**
-     *
-     * @param unknown $email            
-     * @return boolean
-     */
     public function deleteUserRoles()
     {
         try {
@@ -101,22 +85,11 @@ class Role extends AbstractTableGateway
         return false;
     }
 
-    /**
-     *
-     * @param unknown $data            
-     * @param unknown $where            
-     * @return Ambigous <number, \Zend\Db\TableGateway\mixed>
-     */
     public function updateUserRole($data, $where)
     {
         return $this->update($data, $where);
     }
 
-    /**
-     * Get the Roles Name from roles Table
-     * 
-     * @param unknown $rolesID            
-     */
     public function getRolesname($rolesID)
     {
         try {

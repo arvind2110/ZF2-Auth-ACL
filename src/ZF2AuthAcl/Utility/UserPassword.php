@@ -11,16 +11,6 @@ class UserPassword
 
     public $method = 'sha1';
 
-    /**
-     * Constructor
-     *
-     * @author Kaushal Kishore
-     * @access public
-     *        
-     * @param string $method
-     *            // Encryption method
-     * @return void
-     */
     public function __construct($method = null)
     {
         if (! is_null($method)) {
@@ -28,16 +18,6 @@ class UserPassword
         }
     }
 
-    /**
-     * Create Password
-     *
-     * @author Kaushal Kishore
-     * @access public
-     *        
-     * @param string $password
-     *            User Password
-     * @return string
-     */
     public function create($password)
     {
         if ($this->method == 'md5') {
@@ -51,20 +31,6 @@ class UserPassword
         }
     }
 
-    /**
-     * Validate the user password
-     *
-     * @author Kaushal Kishore
-     * @access public
-     *        
-     * @param string $password
-     *            // Password string
-     *            
-     * @param string $hash
-     *            // Hash string
-     *            
-     * @return boolean
-     */
     public function verify($password, $hash)
     {
         if ($this->method == 'md5') {

@@ -12,9 +12,6 @@ use Zend\Validator\Explode;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Adapter\Adapter;
 
-/*
- * User Role model class for table user_role
- */
 class UserRole extends AbstractTableGateway
 {
 
@@ -26,11 +23,6 @@ class UserRole extends AbstractTableGateway
         $this->initialize();
     }
     
-    /**
-     * Get all the Users Role
-     *
-     * @return array
-     */
     public function getUserRoles($where = array(), $columns = array(), $orderBy = '', $paging = false)
     {
         try {
@@ -96,8 +88,6 @@ class UserRole extends AbstractTableGateway
                 $insert = $sql->insert($this->table);
                 $insert->values($userRole);
                 $statement = $sql->prepareStatementForSqlObject($insert)->execute();
-//                 $result = $statement->execute();
-//                 return $result;
             } catch (\Exception $err) {
                 throw $err;
             }
@@ -105,12 +95,6 @@ class UserRole extends AbstractTableGateway
         return true;
     }
 
-    /**
-     * Get all the exiting roles
-     *
-     * @throws \Exception
-     * @return multitype:string
-     */
     public function getCurrentRoles()
     {
         try {
@@ -135,12 +119,6 @@ class UserRole extends AbstractTableGateway
         }
     }
 
-    /**
-     * Get all the exiting roles
-     *
-     * @throws \Exception
-     * @return multitype:string
-     */
     public function getCurrentUserRoles($where)
     {
         try {
@@ -168,19 +146,16 @@ class UserRole extends AbstractTableGateway
                 '1' => 'users.last_name'
             ));
             $sqlhhh = $select->getSqlString();
-           // print_r($sqlhhh);die;
             $statement = $sql->prepareStatementForSqlObject($select);
             
             $roles = $this->resultSetPrototype->initialize($statement->execute())
                 ->toArray();
-            //sort($roles);
+            
             foreach ($roles as $k => $value) {
                 $userRoles[$value['user_id']]['roleDetails'][] = $value['role_name'];
                 $userRoles[$value['user_id']]['roleUser'] = $value['first_name'] . ' ' . $value['last_name'];
             }
            
-            // natcasesort($userRoles);
-            //prx($userRoles);
             return $userRoles;
         } catch (\Exception $err) {
             throw $err;
@@ -211,7 +186,6 @@ class UserRole extends AbstractTableGateway
     				'1' => 'users.last_name'
     		));
     		$sqlhhh = $select->getSqlString();
-    		// print_r($sqlhhh);die;
     		$statement = $sql->prepareStatementForSqlObject($select);
     
     		$roles = $this->resultSetPrototype->initialize($statement->execute())
@@ -221,20 +195,12 @@ class UserRole extends AbstractTableGateway
     			$userRoles['roleUser'] = $value['first_name'] . ' ' . $value['last_name'];
     		}
     		 
-    		// natcasesort($userRoles);
-    
     		return $userRoles;
     	} catch (\Exception $err) {
     		throw $err;
     	}
     }
     
-    /**
-     * Get all the exiting users
-     *
-     * @throws \Exception
-     * @return multitype:string
-     */
     public function getAllUsers()
     {
         try {
@@ -260,12 +226,6 @@ class UserRole extends AbstractTableGateway
         }
     }
 
-    /**
-     * Get all the User Permissions
-     *
-     * @throws \Exception
-     * @return multitype:string
-     */
     public function getUserPermissions()
     {
         try {
@@ -294,13 +254,6 @@ class UserRole extends AbstractTableGateway
         }
     }
 
-    /**
-     * Function for Saving and Updating the Employee Roles
-     *
-     * @param unknown $employeeData            
-     * @throws \Exception
-     * @return boolean
-     */
     public function saveClientRole($saveRole)
     {
         try {
@@ -310,14 +263,6 @@ class UserRole extends AbstractTableGateway
         }
     }
 
-    /**
-     * Delete Roles
-     *
-     * @access public
-     * @author Arvind Singh
-     * @param array $data            
-     * @return number
-     */
     public function deleteRoles($where)
     {
         try {
