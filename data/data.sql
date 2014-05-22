@@ -1,3 +1,13 @@
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `status` enum('Y','N') NOT NULL DEFAULT 'Y',
+  `created_on` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
 CREATE TABLE `role` (
   `rid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `role_name` varchar(45) NOT NULL,
