@@ -78,7 +78,7 @@ class Role extends AbstractTableGateway
     public function deleteUserRoles()
     {
         try {
-            $this->detele();
+            $this->delete();
         } catch (\Exception $e) {
             throw new \Exception($e->getPrevious()->getMessage());
         }
