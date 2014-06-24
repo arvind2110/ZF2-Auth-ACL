@@ -36,8 +36,9 @@ class Module
         $target = $event->getTarget();
         
         $whiteList = array(
-            'ZF2AuthAcl\Controller\Index-index',
-            'ZF2AuthAcl\Controller\Index-logout'
+            'zfcuser-register',
+            'zfcuser-login',
+            'goalioforgotpassword_forgot-forgot'
         );
         
         $requestUri = $request->getRequestUri();
@@ -46,11 +47,11 @@ class Module
         $action = $event->getRouteMatch()->getParam('action');
         
         $requestedResourse = $controller . "-" . $action;
-        
+        //die($requestedResourse);
         $session = new Container('User');
         
         if ($session->offsetExists('email')) {
-            if ($requestedResourse == 'ZF2AuthAcl\Controller\Index-index' || in_array($requestedResourse, $whiteList)) {
+            if ($requestedResourse == 'zfcuser-login' || in_array($requestedResourse, $whiteList)) {
                 $url = '/';
                 $response->setHeaders($response->getHeaders()
                     ->addHeaderLine('Location', $url));
@@ -69,9 +70,9 @@ class Module
                 }
             }
         } else {
-            
-            if ($requestedResourse != 'ZF2AuthAcl\Controller\Index-index' && ! in_array($requestedResourse, $whiteList)) {
-                $url = '/login';
+           
+            if ($requestedResourse != 'zfcuser-login' && ! in_array($requestedResourse, $whiteList)) {
+                $url = '/user/login';
                 $response->setHeaders($response->getHeaders()
                     ->addHeaderLine('Location', $url));
                 $response->setStatusCode(302);
