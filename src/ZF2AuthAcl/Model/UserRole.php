@@ -19,6 +19,7 @@ class UserRole extends AbstractTableGateway
 
     public function __construct(Adapter $adapter)
     {
+        $this->adapter = $adapter;
         $this->resultSetPrototype = new ResultSet(ResultSet::TYPE_ARRAY);
         $this->initialize();
     }
