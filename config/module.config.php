@@ -31,6 +31,11 @@ return array(
             'ZF2AuthAcl\Controller\Index' => 'ZF2AuthAcl\Controller\IndexController'
         )
     ),
+    'controller_plugins' => array(
+        'invokables' => array(
+            'userAuthRole' => 'ZF2AuthAcl\Plugin\userAuthRole',
+        )
+    ),
     'view_manager' => array(
         'template_map' => array(
             'zf2-auth-acl/index/index' => __DIR__ . '/../view/zf2-auth-acl/index/index.phtml'

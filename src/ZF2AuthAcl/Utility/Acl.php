@@ -44,13 +44,20 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
         $this->resources = $this->_getAllResources();
         $this->rolePermission = $this->_getRolePermissions();
         // we are not putting these resource & permission in table bcz it is
-        // common to all user
+        // common to all user  
+           
         $this->commonPermission = array(
-            'ZF2AuthAcl\Controller\Index' => array(
+            'zfcuser' => array(
                 'logout',
-                'index'                
-            )
+                'login',
+                'register'                
+            ),
+            'goalioforgotpassword_forgot' => array(
+        	   'forgot',
+                'reset',
+            ),
         );
+        
         $this->_addRoles()
             ->_addResources()
             ->_addRoleResources();

@@ -13,6 +13,7 @@ use ZF2AuthAcl\Model\RolePermissionTable;
 use Zend\Authentication\AuthenticationService;
 use ZF2AuthAcl\Model\Role;
 use ZF2AuthAcl\Utility\Acl;
+use ZF2AuthAcl\Plugin\userAuthRole;
 
 class Module
 {
@@ -22,8 +23,25 @@ class Module
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $sm = $e->getApplication()->getServiceManager();
         
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array(
+        $zfcServiceEvents = $sm->get('zfcuser_user_service')->getEventManager();
+        
+       
+        $zfcServiceEvents->attach('register.post',  function($e) use($sm){
+            $user = $e->getParam('user');  // User account object
+            $form = $e->getParam('form');  // Form object
+            // Perform your custom action here
+            $sm->get('UserRoleTable')->addNewuserRole(
+	           array(
+            	   'user_id' => $user->getId(),
+	               'role_id' => 2,   
+                )
+            );
+        });
+        
+        
+       $eventManager->attach(MvcEvent::EVENT_DISPATCH, array(
             $this,
             'boforeDispatch'
         ), 100);
@@ -45,12 +63,13 @@ class Module
         $controller = $event->getRouteMatch()->getParam('controller');
         
         $action = $event->getRouteMatch()->getParam('action');
-        
         $requestedResourse = $controller . "-" . $action;
-        //die($requestedResourse);
-        $session = new Container('User');
         
-        if ($session->offsetExists('email')) {
+        $serviceManager = $event->getApplication()->getServiceManager();
+        $auth = $serviceManager->get('zfcuser_auth_service');
+       
+        
+        if ($auth->hasIdentity()) {
             if ($requestedResourse == 'zfcuser-login' || in_array($requestedResourse, $whiteList)) {
                 $url = '/';
                 $response->setHeaders($response->getHeaders()
@@ -58,13 +77,15 @@ class Module
                 $response->setStatusCode(302);
             } else {
                 
-                $serviceManager = $event->getApplication()->getServiceManager();
-                $userRole = $session->offsetGet('roleName');
-                
+                $roleAtuth = $serviceManager->get('roleAuthService');
+                if($roleAtuth->userHasRole()){
+                    $userRole = $roleAtuth->getRoleName();  
+                } else {                         
+                    $userRole = $roleAtuth->setUserRole($auth->getIdentity()->getId(),$serviceManager);
+                } 
                 $acl = $serviceManager->get('Acl');
                 $acl->initAcl();
-                
-                $status = $acl->isAccessAllowed($userRole, $controller, $action);
+                $status = $acl->isAccessAllowed($userRole, $controller, $action);                
                 if (! $status) {
                     die('Permission denied');
                 }
@@ -101,41 +122,48 @@ class Module
     {
         return array(
             'factories' => array(
-                'AuthService' => function ($serviceManager)
-                {
+                'AuthService' => function ($serviceManager){
                     $adapter = $serviceManager->get('Zend\Db\Adapter\Adapter');
                     $dbAuthAdapter = new DbAuthAdapter($adapter, 'users', 'email', 'password');
                     $auth = new AuthenticationService();
                     $auth->setAdapter($dbAuthAdapter);
                     return $auth;
                 },
-                'Acl' => function ($serviceManager)
-                {
+                'Acl' => function ($serviceManager){
                     return new Acl();
                 },
-                'UserTable' => function ($serviceManager)
-                {
+                'UserTable' => function ($serviceManager){
                     return new User($serviceManager->get('Zend\Db\Adapter\Adapter'));
                 },
-                'RoleTable' => function ($serviceManager)
-                {
+                'RoleTable' => function ($serviceManager){
                     return new Role($serviceManager->get('Zend\Db\Adapter\Adapter'));
                 },
-                'UserRoleTable' => function ($serviceManager)
-                {
+                'UserRoleTable' => function ($serviceManager){
                     return new UserRole($serviceManager->get('Zend\Db\Adapter\Adapter'));
                 },
-                'PermissionTable' => function ($serviceManager)
-                {
+                'PermissionTable' => function ($serviceManager){
                     return new PermissionTable($serviceManager->get('Zend\Db\Adapter\Adapter'));
                 },
-                'ResourceTable' => function ($serviceManager)
-                {
+                'ResourceTable' => function ($serviceManager){
                     return new ResourceTable($serviceManager->get('Zend\Db\Adapter\Adapter'));
                 },
-                'RolePermissionTable' => function ($serviceManager)
-                {
+                'RolePermissionTable' => function ($serviceManager){
                     return new RolePermissionTable($serviceManager->get('Zend\Db\Adapter\Adapter'));
+                },
+                'roleAuthService' => function ($serviceManager){
+                    return new userAuthRole();
+                }
+            )
+        );
+    }
+    
+    public function getViewHelperConfig()
+    {
+        return array(
+            'factories' => array(
+                'roleAuth' => function($sm) {
+                    $roleAuth = new \ZF2AuthAcl\Plugin\View\userAuthRoleHelper();
+                    return $roleAuth;
                 }
             )
         );
