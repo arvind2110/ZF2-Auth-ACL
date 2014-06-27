@@ -37,6 +37,7 @@ class Role extends AbstractTableGateway
                 'status',
             ));
             $select->where('rid != "Active"');
+            $select->group('role_name');
             if (count($where) > 0) {
                 $select->where($where);
             }

@@ -24,20 +24,32 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         $sm = $e->getApplication()->getServiceManager();
-        
+        $config = $sm->get('config');
         $zfcServiceEvents = $sm->get('zfcuser_user_service')->getEventManager();
         
        
-        $zfcServiceEvents->attach('register.post',  function($e) use($sm){
+        $zfcServiceEvents->attach('register.post',  function($e) use($sm,$config){
             $user = $e->getParam('user');  // User account object
             $form = $e->getParam('form');  // Form object
             // Perform your custom action here
-            $sm->get('UserRoleTable')->addNewuserRole(
-	           array(
-            	   'user_id' => $user->getId(),
-	               'role_id' => 2,   
-                )
-            );
+            if(isset($config['authRoleSettings'])){
+                $defaultRole = $sm->get('RoleTable')->getUserRoles(array('role_name' => $config['authRoleSettings']['defaultRaoleId']));
+                
+                if(!empty($defaultRole) ){
+                    $sm->get('UserRoleTable')->addNewuserRole(
+                        array(
+                            'user_id' => $user->getId(),
+                            'role_id' => $defaultRole[0]['rid'],
+                        )
+                    );
+                } else {
+                    throw new \Exception(sprintf('%s role is not  present',$config['authRoleSettings']['defaultRaoleId']));
+                }
+               
+            } else {
+                throw new \Exception('Role Auth setting are not present');
+            }
+            
         });
         
         
@@ -66,12 +78,20 @@ class Module
         $requestedResourse = $controller . "-" . $action;
         
         $serviceManager = $event->getApplication()->getServiceManager();
-        $auth = $serviceManager->get('zfcuser_auth_service');
-       
+        $config = $serviceManager->get('config');
+        $globalList = array();
+        if(isset($config['authRoleSettings']['whiteList'])){
+            $whiteList = array_merge($whiteList,$config['authRoleSettings']['beforeLoginList']);
+        }
+        if(isset($config['authRoleSettings']['globalList'])){
+            $globalList = $config['authRoleSettings']['globalList'];
+        }
         
-        if ($auth->hasIdentity()) {
+        $auth = $serviceManager->get('zfcuser_auth_service');        
+        if ($auth->hasIdentity() && !in_array($requestedResourse, $globalList)) {
             if ($requestedResourse == 'zfcuser-login' || in_array($requestedResourse, $whiteList)) {
-                $url = '/';
+                
+                $url = '/user';
                 $response->setHeaders($response->getHeaders()
                     ->addHeaderLine('Location', $url));
                 $response->setStatusCode(302);
@@ -90,9 +110,10 @@ class Module
                     die('Permission denied');
                 }
             }
-        } else {
-           
-            if ($requestedResourse != 'zfcuser-login' && ! in_array($requestedResourse, $whiteList)) {
+        } else {    
+            if ($requestedResourse != 'zfcuser-login' 
+                && ! in_array($requestedResourse, $whiteList)
+                && ! in_array($requestedResourse, $globalList)) {                
                 $url = '/user/login';
                 $response->setHeaders($response->getHeaders()
                     ->addHeaderLine('Location', $url));

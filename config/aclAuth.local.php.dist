@@ -2,5 +2,11 @@
 return array(
 	'authRoleSettings' => array(
 	   'defaultRaoleId' => 'MEMBER',
+	    'globalList' => array(
+		      'Application\Controller\Index-index'
+	   ),
+	    'beforeLoginList' => array(
+	        //'Application\Controller\Index-index'
+	    ),
     ),
 );

@@ -47,7 +47,7 @@ class UserRole extends AbstractTableGateway
             	'rid',
                 'role_name',
                 'status',
-            ));
+            ),'RIGHT');
             if (count($where) > 0) {
                 $select->where($where);
             }
