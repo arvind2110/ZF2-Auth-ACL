@@ -1,5 +1,5 @@
 {
-    "name": "Mohit-Singh/ZF2AuthAcl",
+    "name": "mohit-singh/zf2auth-acl",
     "description": "This is ACL module plug with zfcuser module this is heighly configurable abd provide different services at controller, view and module level.",
     "type": "library",
     "keywords": [
