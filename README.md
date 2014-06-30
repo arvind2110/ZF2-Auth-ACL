@@ -13,7 +13,7 @@ using composer add
 ```
   "require" : {
        ...
-    "mohit-singh/zf2auth-acl": "dev-zfcuser_acl"
+    "mohit-singh/zf2auth-acl": "V1.0.0"
   }
 ```
 then copy and rename the following,
