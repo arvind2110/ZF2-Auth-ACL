@@ -1,10 +1,95 @@
 <?php
+/**
+ * The MIT License (MIT)
+ * 
+ *  
+ * @copyright Mohit K Singh
+ * 
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ *  
+ *  This is the default confugration for ZF2AuthAcl pluged with zfcuser 
+ *  module this is heighly configurable abd provide different services at 
+ *  controller, view and module level.
+ */
 return array(
 	'authRoleSettings' => array(
+    	/**
+    	 * @var ACL_Template
+    	 * 
+    	 * This is used to render your custom template 
+    	 * "zf2-auth-acl/index/permission.phtml"  is the default template when
+    	 * a unauthorized url is hit. you can define your custom template path 
+    	 * here it will render your tempate.
+    	 * 
+    	 */
+	   'ACL_Template' => 'zf2-auth-acl/index/permission.phtml',
+	   
+	   /**
+	    * @var Set_Terminal
+	    * 
+	    * This use to set layout disable or enable, default value is "false" 
+	    * enable the layout , "true" will disable the layout
+	    * 
+	    */
+	   'Set_Terminal' => false,
+	   
+	   /**
+	    * @var defaultRaoleId
+	    * 
+	    * This variable define what is the default role when user log-in, 
+	    * It must be something else it will show error, It also plug with 
+	    * zfcuser when a user register using zfcuser it will add this 
+	    * default role for the register user.
+	    * 
+	    * other role are added manually or some custom script  
+	    */
 	   'defaultRaoleId' => 'MEMBER',
+	   
+	   /**
+	    * @var globalList
+	    * 
+	    * This is the list of URL which are open to all no ACL will be 
+	    * implemented on these URL
+	    * 
+	    * How to Create URL:- it contain two parts first is controller name
+	    * for which you invoke your Controller in module.config
+	    * for me it is:- "Application\Controller\Index" and second is your 
+	    * Action name for me it is "index" now concatenate both by "-" so the 
+	    * URL will be "Application\Controller\Index-index"
+	    * 
+	    */
 	    'globalList' => array(
 		      'Application\Controller\Index-index'
 	   ),
+	   
+	   /**
+	    * @var beforeLoginList
+	    * 
+	    * This is the list of URL which are open to user before login only.
+	    * 
+	    * How to Create URL:- it contain two parts first is controller name
+	    * for which you invoke your Controller in module.config
+	    * for me it is:- "Application\Controller\Index" and second is your 
+	    * Action name for me it is "index" now concatenate both by "-" so the 
+	    * URL will be "Application\Controller\Index-index"
+	    * 
+	    */
 	    'beforeLoginList' => array(
 	        //'Application\Controller\Index-index'
 	    ),

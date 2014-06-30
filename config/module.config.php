@@ -13,6 +13,17 @@ return array(
                     )
                 )
             ),
+            'permission-denied' => array(
+            'type' => 'Literal',
+            'options' => array(
+                    'route' => '/permission-denied',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'ZF2AuthAcl\Controller',
+                        'controller' => 'Index',
+                        'action' => 'permission-denied'
+                    )
+                )
+            ),
             'logout' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -38,7 +49,8 @@ return array(
     ),
     'view_manager' => array(
         'template_map' => array(
-            'zf2-auth-acl/index/index' => __DIR__ . '/../view/zf2-auth-acl/index/index.phtml'
+            'zf2-auth-acl/index/index' => __DIR__ . '/../view/zf2-auth-acl/index/index.phtml',
+            //'zf2-auth-acl/index/permission-denied' => __DIR__.'/../view/zf2-auth-acl/index/permission.phtml'
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view'

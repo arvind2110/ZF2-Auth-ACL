@@ -73,6 +73,10 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * 
+     * @return Ambigous <\Zend\Http\Response, \Zend\Stdlib\ResponseInterface>
+     */
     public function logoutAction(){
         $authService = $this->getServiceLocator()->get('AuthService');
         
@@ -83,10 +87,42 @@ class IndexController extends AbstractActionController
         return $this->redirect()->toUrl('/login');
     }
     
+    /**
+     * 
+     * @param unknown $where
+     * @param unknown $columns
+     * @return unknown
+     */
     private function _getUserDetails($where, $columns)
     {
         $userTable = $this->getServiceLocator()->get("UserTable");
         $users = $userTable->getUsers($where, $columns);
         return $users;
+    }
+    
+    /**
+     * 
+     * @throws \Exception
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function permissionDeniedAction()
+    {
+        $config = $this->getServiceLocator()->get('config');
+        $viewModel = new ViewModel();
+        try{
+            $roleConfig = $config['authRoleSettings'];
+            if(isset($roleConfig)){
+                $viewModel->setTemplate($roleConfig['ACL_Template']);
+                if($roleConfig['Set_Terminal']){
+                    $viewModel->setTerminal(true);
+                }
+            }else {
+                throw new \Exception('ACL confugration is missing.');
+            }
+            
+        } catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+        return $viewModel;
     }
 }

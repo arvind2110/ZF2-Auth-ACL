@@ -31,9 +31,9 @@ class Module
         $zfcServiceEvents->attach('register.post',  function($e) use($sm,$config){
             $user = $e->getParam('user');  // User account object
             $form = $e->getParam('form');  // Form object
-            // Perform your custom action here
             if(isset($config['authRoleSettings'])){
-                $defaultRole = $sm->get('RoleTable')->getUserRoles(array('role_name' => $config['authRoleSettings']['defaultRaoleId']));
+                $defaultRole = $sm->get('RoleTable')->getUserRoles(array('role_name' => 
+                                        $config['authRoleSettings']['defaultRaoleId']));
                 
                 if(!empty($defaultRole) ){
                     $sm->get('UserRoleTable')->addNewuserRole(
@@ -43,16 +43,13 @@ class Module
                         )
                     );
                 } else {
-                    throw new \Exception(sprintf('%s role is not  present',$config['authRoleSettings']['defaultRaoleId']));
+                    throw new \Exception(sprintf('%s role is not  present',
+                                    $config['authRoleSettings']['defaultRaoleId']));
                 }
-               
             } else {
                 throw new \Exception('Role Auth setting are not present');
             }
-            
         });
-        
-        
        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array(
             $this,
             'boforeDispatch'
@@ -71,20 +68,23 @@ class Module
             'goalioforgotpassword_forgot-forgot'
         );
         
+        $globalList = array(
+            'ZF2AuthAcl\Controller\Index-permission-denied'
+        );
+        
         $requestUri = $request->getRequestUri();
         $controller = $event->getRouteMatch()->getParam('controller');
         
         $action = $event->getRouteMatch()->getParam('action');
         $requestedResourse = $controller . "-" . $action;
-        
         $serviceManager = $event->getApplication()->getServiceManager();
         $config = $serviceManager->get('config');
-        $globalList = array();
+       
         if(isset($config['authRoleSettings']['whiteList'])){
             $whiteList = array_merge($whiteList,$config['authRoleSettings']['beforeLoginList']);
         }
         if(isset($config['authRoleSettings']['globalList'])){
-            $globalList = $config['authRoleSettings']['globalList'];
+            $globalList = array_merge($globalList, $config['authRoleSettings']['globalList']);
         }
         
         $auth = $serviceManager->get('zfcuser_auth_service');        
@@ -107,7 +107,9 @@ class Module
                 $acl->initAcl();
                 $status = $acl->isAccessAllowed($userRole, $controller, $action);                
                 if (! $status) {
-                    die('Permission denied');
+                    $response->setHeaders($response->getHeaders()
+                        ->addHeaderLine('Location', '/permission-denied'));
+                    $response->setStatusCode(302);
                 }
             }
         } else {    
