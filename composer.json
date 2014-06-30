@@ -14,12 +14,12 @@
     "authors": [
         {
             "name": "Mohit K Singh",
-            "email": "mohit.singh2090@gmail.com",
+            "email": "mohit.singh2090@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.3",
-        "zf-commons/zfc-user" : "1.x-dev",
+        "zf-commons/zfc-user": "1.x-dev"
     },
     "autoload": {
         "classmap": [
