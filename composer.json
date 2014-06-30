@@ -7,6 +7,8 @@
         "Auth",
         "ACL",
         "ZF2 Auth",
+        "zfcuser",
+        "zf-commons",
         "ZF2 ACL",
         "ZF2 Auth Acl"
     ],
