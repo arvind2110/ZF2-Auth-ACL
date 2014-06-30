@@ -1,6 +1,6 @@
 {
-    "name": "arvind2110/zf2-auth-acl",
-    "description": "ZF2-Auth-ACL is very simple ZF2 module for ZF2 Auth/ACL use.",
+    "name": "mohit-singh/zf2auth-acl",
+    "description": "This is ACL module plug with zfcuser module this is heighly configurable abd provide different services at controller, view and module level.",
     "type": "library",
     "keywords": [
         "zf2",
@@ -10,16 +10,16 @@
         "ZF2 ACL",
         "ZF2 Auth Acl"
     ],
-    "homepage": "https://github.com/arvind2110/ZF2-Auth-ACL",
+    "homepage": "https://github.com/Mohit-Singh/ZF2AuthAcl",
     "authors": [
         {
-            "name": "Arvind Singh",
-            "email": "arvind.singh.2110@gmail.com",
-            "homepage": "http://programming-tips.in"
+            "name": "Mohit K Singh",
+            "email": "mohit.singh2090@gmail.com"
         }
     ],
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.3",
+        "zf-commons/zfc-user": "1.x-dev"
     },
     "autoload": {
         "classmap": [
