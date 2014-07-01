@@ -16,6 +16,15 @@ using composer add
     "mohit-singh/zf2auth-acl": "V1.0.1"
   }
 ```
+Enable the module in application.config.php
+
+```php
+ 'modules' => array(
+	...
+        'ZF2AuthAcl'
+    ),
+```
+
 then copy and rename the following,
 ```
 copy vendor/mohit-singh/zf2auth-acl/config/aclAuth.local.php.dist to config/autoload/aclAuth.local.php
