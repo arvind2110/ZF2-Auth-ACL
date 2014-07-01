@@ -13,7 +13,7 @@ using composer add
 ```
   "require" : {
        ...
-    "mohit-singh/zf2auth-acl": "V1.0.0"
+    "mohit-singh/zf2auth-acl": "V1.0.1"
   }
 ```
 then copy and rename the following,
@@ -129,6 +129,40 @@ $roleAtuth->getUserValidRole();
 
 //Switch between roles
 $roleAtuth->switchRole('ADMIN');
+```
+
+It Also provide cache mechanism to store role, resource and permission in cache.
+you can configure the caching here
+
+```php
+    /**
+     * This cache is used the disk file system to store date with the following options.
+     */ 
+    'fileCache' => array(
+        'cache_dir' => './data/cache',
+        'namespace' => 'systemCache',
+        'dir_level' => 2,
+        'filePermission' => 0666,
+        'dirPermission' => 0755
+    ),
+```
+you can also access file system cache in your project like this
+
+```php
+
+// store item in filesystem cache
+        $this->getServiceLocator()->get('Zend\Cache\Storage\Filesystem')->setItem('foo', 'taxi');
+
+
+// get item from filesystem cache
+        echo 'Cached Item is:- '.$this->getServiceLocator()->get('Zend\Cache\Storage\Filesystem')->getItem('foo');
+
+```
+
+you are using file system cache so you have to give permission to the cache folder
+
+```
+> sudo chmod -R 0777 data/cache
 ```
 
 
