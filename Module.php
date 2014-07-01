@@ -175,7 +175,25 @@ class Module
                 },
                 'roleAuthService' => function ($serviceManager){
                     return new userAuthRole();
-                }
+                },
+                // global service for filesystem cache.
+                'Zend\Cache\Storage\Filesystem' => function ($sm)
+                {
+                    $config = $sm->get('config');
+                    $fileCache = $config['fileCache'];
+                    $cache = \Zend\Cache\StorageFactory::factory(array(
+                        'adapter' => 'filesystem',
+                        'plugins' => array(
+                            'exception_handler' => array(
+                                'throw_exceptions' => true
+                            ),
+                            'serializer'
+                        )
+                    ));
+                    $cache->setOptions($fileCache);
+                
+                    return $cache;
+                },
             )
         );
     }

@@ -38,7 +38,7 @@ return array(
     	 * here it will render your tempate.
     	 * 
     	 */
-	   'ACL_Template' => 'zf2-auth-acl/index/permission.phtml',
+	   'ACL_Template' => 'layout/permission.phtml',//'zf2-auth-acl/index/permission.phtml',
 	   
 	   /**
 	    * @var Set_Terminal
@@ -93,5 +93,15 @@ return array(
 	    'beforeLoginList' => array(
 	        //'Application\Controller\Index-index'
 	    ),
+    ),
+    /**
+     * This cache is used the disk file system to store date with the following options.
+     */ 
+    'fileCache' => array(
+        'cache_dir' => './data/cache',
+        'namespace' => 'systemCache',
+        'dir_level' => 2,
+        'filePermission' => 0666,
+        'dirPermission' => 0755
     ),
 );

@@ -131,22 +131,61 @@ class Acl extends ZendAcl implements ServiceLocatorAwareInterface
         return $this;
     }
 
+    /**
+     * get All roles
+     * 
+     * @return unknown
+     */
     protected function _getAllRoles()
     {
-        $roleTable = $this->getServiceLocator()->get("RoleTable");
-        return $roleTable->getUserRoles();
+        $cache = $this->getServiceLocator()->get('Zend\Cache\Storage\Filesystem');
+        $allRoles = $cache->getItem('allRoles');
+        if(isset($allRoles)){
+            return $allRoles;
+        }else {
+            $roleTable = $this->getServiceLocator()->get("RoleTable");
+            $allRoles = $roleTable->getUserRoles();
+            $cache->setItem('allRoles',$allRoles);
+            return $allRoles;
+        }
     }
 
+    /**
+     * get All resources
+     * @return unknown
+     */
     protected function _getAllResources()
     {
-        $resourceTable = $this->getServiceLocator()->get("ResourceTable");
-        return $resourceTable->getAllResources();
+        $cache = $this->getServiceLocator()->get('Zend\Cache\Storage\Filesystem');
+        $allResource= $cache->getItem('allResource');
+        if(isset($allResource)){
+            return $allResource;
+        }else {
+            $resourceTable = $this->getServiceLocator()->get("ResourceTable");
+            $allResource= $resourceTable->getAllResources();
+            $cache->setItem('allResource',$allResource);
+            return $allResource;
+        }
     }
 
+    /**
+     * get all permissions
+     * 
+     * @return unknown
+     */
     protected function _getRolePermissions()
     {
-        $rolePermissionTable = $this->getServiceLocator()->get("RolePermissionTable");
-        return $rolePermissionTable->getRolePermissions();
+        $cache = $this->getServiceLocator()->get('Zend\Cache\Storage\Filesystem');
+        $RolePermissions = $cache->getItem('RolePermissions');
+        if(isset($RolePermissions)){
+            return $RolePermissions;
+        }else{
+            $rolePermissionTable = $this->getServiceLocator()->get("RolePermissionTable");
+            $RolePermissions =  $rolePermissionTable->getRolePermissions();
+            $cache->setItem('RolePermissions',$RolePermissions);
+            return $RolePermissions;
+        }
+        
     }
     
     private function debugAcl($role, $resource, $permission)
