@@ -69,7 +69,10 @@ class Module
         );
         
         $globalList = array(
-            'ZF2AuthAcl\Controller\Index-permission-denied'
+            'ZF2AuthAcl\Controller\Index-permission-denied',
+            'zfcuser-index',
+            'zfcuser-changepassword',
+            'zfcuser-changeemail'
         );
         
         $requestUri = $request->getRequestUri();
@@ -87,7 +90,7 @@ class Module
             $globalList = array_merge($globalList, $config['authRoleSettings']['globalList']);
         }
         
-        $auth = $serviceManager->get('zfcuser_auth_service');        
+        $auth = $serviceManager->get('zfcuser_auth_service'); 
         if ($auth->hasIdentity() && !in_array($requestedResourse, $globalList)) {
             if ($requestedResourse == 'zfcuser-login' || in_array($requestedResourse, $whiteList)) {
                 
@@ -109,7 +112,7 @@ class Module
                 if (! $status) {
                     $response->setHeaders($response->getHeaders()
                         ->addHeaderLine('Location', '/permission-denied'));
-                    $response->setStatusCode(302);
+                    $response->setStatusCode(302);                    
                 }
             }
         } else {    

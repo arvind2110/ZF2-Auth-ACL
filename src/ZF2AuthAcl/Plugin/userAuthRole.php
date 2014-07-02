@@ -69,7 +69,7 @@ class userAuthRole extends AbstractPlugin
                 $userRoleService = new UserRoleService();
                 $userRoleService->mapper($mapperData);
                 $roleRepo = new Container('roleReop');                
-                $roleRepo->offsetSet('roleServiceObj', serialize($userRoleService));
+                $roleRepo->offsetSet('roleServiceObj', serialize($userRoleService));                
                 return $defaultRole;
                 
             }else {
@@ -87,7 +87,7 @@ class userAuthRole extends AbstractPlugin
     public function getRoleName()
     {
         if(isset($this->_roleService)){
-            $this->_roleService = unserialize( $this->_roleService);
+            $this->_roleService = unserialize( $this->_roleService);            
             return $this->_roleService->getRoleName();
             
         }else {
